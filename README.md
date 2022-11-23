@@ -1,10 +1,9 @@
 # nuxt-currency-conv
 ### Basic web application for currency convertation
+## Link:
+# https://currency-converter-lite.netlify.app/
+
 ## Build Setup
-
-### Link:
-## https://currency-converter-lite.netlify.app/
-
 ```bash
 # install dependencies
 $ yarn install
