@@ -1,17 +1,38 @@
+<i18n lang="yaml">
+en:
+  title: "Currency Converter"
+  label: "Enter your query in the textbox below:"
+  placeholder: "For example: 15 usd in rub"
+  convertBtn: "Convert"
+  clearBtn: "Clear"
+  required: "Query is required!"
+  invalidQuery: "The entered query must be valid! Please, check the example and type it correct."
+  invalidCurrency: "is not supported yet"
+ru:
+  title: "Конвертер валют"
+  label: "Введите запрос в текстовое поле ниже:"
+  placeholder: "Например: 15 usd in rub"
+  convertBtn: "Конвертировать"
+  clearBtn: "Очистить"
+  required: "Необходимо ввести запрос!"
+  invalidQuery: "Вводимый запрос должен быть валидным! Пожалуйста, рассмотрите пример, а затем введите валидный запрос."
+  invalidCurrency: "не поддерживается на данный момент"
+</i18n>
+
 <template>
   <form @submit.prevent="submit">
     <v-container>
-      <h1>Currency Converter</h1>
+      <h1>{{ $t("title") }}</h1>
       <br />
-      <v-label>Enter your query in the textbox below:</v-label>
+      <v-label>{{ $t("label") }}</v-label>
       <v-text-field
         v-model="query"
-        label="For example: 15 usd in rub"
+        :label="$t('placeholder')"
         required
         focus
       ></v-text-field>
-      <v-btn class="mr-4" @click="submit"> convert </v-btn>
-      <v-btn @click="clear"> clear </v-btn>
+      <v-btn class="mr-4" @click="submit"> {{ $t("convertBtn") }} </v-btn>
+      <v-btn @click="clear"> {{ $t("clearBtn") }} </v-btn>
     </v-container>
     <br />
     <h2 class="px-4">{{ result }}</h2>
@@ -33,12 +54,13 @@ export default {
     async submit() {
       try {
         if (this.query.length <= 0) {
-          this.result = "Query is required!";
+          this.result = this.$t("required");
           return;
         }
         const [amount, from, _, to] = this.query.split(" ");
+        this.baseCurrency = from;
 
-        const res = await exchangeRates()
+        const response = await exchangeRates()
           .setApiBaseUrl("https://api.exchangerate.host")
           .latest()
           .base(from)
@@ -46,16 +68,26 @@ export default {
           .fetch()
           .then((rate) => rate * amount);
 
-        this.result = `${res} ${to.toUpperCase()}`;
+        if (isNaN(response)) {
+          this.result = this.$t("invalidQuery");
+          return;
+        }
+        const resultAmount = from !== to ? response.toFixed(4) : response;
+        this.result = `${resultAmount} ${to.toUpperCase()}`;
       } catch (error) {
         console.warn(error);
 
         if (error instanceof TypeError) {
-          this.result =
-            "The enter query must be valid! Please, check the example and type it correct.";
+          this.result = this.$t("invalidQuery");
           return;
         }
-        this.result = error.toString().split(':')[1];
+
+        const invalidCurrency = error.toString().split(" ").slice(1, 2);
+        if (invalidCurrency.length <= 1) {
+          this.result = this.$t("invalidQuery");
+          return;
+        }
+        this.result = invalidCurrency + " " + this.$t("invalidCurrency");
       }
     },
     clear() {

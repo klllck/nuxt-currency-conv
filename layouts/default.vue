@@ -13,7 +13,9 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title :to="localePath('/' + item.title)">{{
+              $t(item.title)
+            }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -28,25 +30,36 @@
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon>
+            <v-icon v-bind="attrs" v-on="on">mdi-translate </v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <nuxt-link
+              :to="switchLocalePath('en')"
+              style="text-decoration: none; color: inherit"
+              >English</nuxt-link
+            >
+          </v-list-item>
+          <v-list-item>
+            <nuxt-link
+              :to="switchLocalePath('ru')"
+              style="text-decoration: none; color: inherit"
+              >Русский</nuxt-link
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+
     <v-footer :absolute="fixed" app class="justify-center">
       <span>&copy; {{ new Date().getFullYear() }} Currency Converter Lite</span>
     </v-footer>
@@ -64,18 +77,16 @@ export default {
       items: [
         {
           icon: "mdi-cash-multiple",
-          title: "Converter",
+          title: "converter",
           to: "/converter",
         },
         {
           icon: "mdi-bank",
-          title: "Market",
+          title: "market",
           to: "/market",
         },
       ],
       miniVariant: false,
-      right: true,
-      rightDrawer: false,
       title: "Currency Converter Lite",
     };
   },
