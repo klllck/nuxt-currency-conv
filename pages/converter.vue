@@ -15,7 +15,7 @@ ru:
   convertBtn: "Конвертировать"
   clearBtn: "Очистить"
   required: "Необходимо ввести запрос!"
-  invalidQuery: "Вводимый запрос должен быть валидным! Пожалуйста, рассмотрите пример, а затем введите валидный запрос."
+  invalidQuery: "Запрос должен быть валидным! Пожалуйста, рассмотрите пример, а затем введите валидный запрос."
   invalidCurrency: "не поддерживается на данный момент"
 </i18n>
 
@@ -58,7 +58,6 @@ export default {
           return;
         }
         const [amount, from, _, to] = this.query.split(" ");
-        this.baseCurrency = from;
 
         const response = await exchangeRates()
           .setApiBaseUrl("https://api.exchangerate.host")
@@ -82,11 +81,12 @@ export default {
           return;
         }
 
-        const invalidCurrency = error.toString().split(" ").slice(1, 2);
-        if (invalidCurrency.length <= 1) {
+        const invalidCurrency = error.toString().split(" ").slice(1, 2).join();
+        if (invalidCurrency.length <= 0) {
           this.result = this.$t("invalidQuery");
           return;
         }
+
         this.result = invalidCurrency + " " + this.$t("invalidCurrency");
       }
     },
