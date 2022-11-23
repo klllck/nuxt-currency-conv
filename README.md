@@ -3,7 +3,7 @@
 ## Build Setup
 
 ### Link:
-https://currency-converter-lite.netlify.app/
+## https://currency-converter-lite.netlify.app/
 
 ```bash
 # install dependencies
