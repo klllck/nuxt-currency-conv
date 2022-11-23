@@ -2,6 +2,9 @@
 ### Basic web application for currency convertation
 ## Build Setup
 
+### Link:
+https://currency-converter-lite.netlify.app/
+
 ```bash
 # install dependencies
 $ yarn install
