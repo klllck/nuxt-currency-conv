@@ -1,5 +1,5 @@
 # nuxt-currency-conv
-
+### Basic web application for currency convertation
 ## Build Setup
 
 ```bash
