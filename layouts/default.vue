@@ -13,7 +13,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title :to="localePath('/' + item.title)">{{
+            <v-list-item-title :to="localePath(item.to)">{{
               $t(item.title)
             }}</v-list-item-title>
           </v-list-item-content>
@@ -59,12 +59,20 @@
         <Nuxt />
       </v-container>
     </v-main>
-
     <v-footer :absolute="fixed" app class="justify-center">
       <span>&copy; {{ new Date().getFullYear() }} Currency Converter Lite</span>
     </v-footer>
   </v-app>
 </template>
+
+<i18n lang="yaml">
+en:
+  converter: "Converter"
+  market: "Market"
+ru:
+  converter: "Конвертер"
+  market: "Курсы валют"
+</i18n>
 
 <script>
 export default {
@@ -78,12 +86,12 @@ export default {
         {
           icon: "mdi-cash-multiple",
           title: "converter",
-          to: "/converter",
+          to: "converter",
         },
         {
           icon: "mdi-bank",
           title: "market",
-          to: "/market",
+          to: "market",
         },
       ],
       miniVariant: false,

@@ -72,8 +72,8 @@ export default {
       ],
       currencies: [],
       currenciesNames: [],
-      validCurrencies: 
-        `Australian Dollar (AUD)
+      validCurrencies:
+       `Australian Dollar (AUD)
         Brazilian Real (BRL)
         British Pound Sterline (GBP)
         Bulgarian Lev (BGN)

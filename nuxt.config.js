@@ -54,13 +54,9 @@ export default {
       messages: {
         en: {
           welcome: "Welcome",
-          converter: "Converter",
-          market: "Market",
         },
         ru: {
           welcome: "Добро пожаловать",
-          converter: "Конвертер",
-          market: "Курсы валют",
         },
       },
     },
